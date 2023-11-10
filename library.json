@@ -1,0 +1,25 @@
+{
+    "name": "RelayModule",
+    "version": "1.0.0",
+    "description": "The \"RelayModule\" Library is a C++ library providing an interface and implementation for controlling relay modules. It allows users to easily integrate relay functionality into ESP32/Arduino projects, offering methods for turning on/off, toggling, and checking the current state of the relay.",
+    "keywords": "Relay Module, Relay Control, Relay Library, Arduino Library, ESP32 Relay, ESP8266 Relay, MetaHouse",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ronny-antoon/RelayModule.git"
+    },
+    "authors": [
+        {
+            "name": "Ronny Antoon",
+            "email": "ronny.antoon@gmail.com",
+            "url": "https://github.com/ronny-antoon"
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/ronny-antoon/RelayModule",
+    "frameworks": "arduino",
+    "platforms": "espressif32",
+    "dependencies": [],
+    "examples": [
+        "examples//.ino"
+    ]
+}
