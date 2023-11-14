@@ -5,8 +5,6 @@
  * @file RelayModuleInterface.hpp
  * @brief Defines the RelayModuleInterface class
  * @details Header file declaring the abstract interface for relay modules
- * @version 1.0.0
- * @date 2023/11/08
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
@@ -46,7 +44,7 @@ public:
      *
      * @return true if the relay module is on, false otherwise.
      */
-    virtual bool isOn() = 0;
+    virtual bool isOn() const = 0;
 };
 
 #endif // RELAY_MODULE_INTERFACE_HPP

@@ -13,6 +13,7 @@ The RelayModule Library is a C++ library providing an abstract interface and imp
 - [Introduction](#introduction)
 - [Features](#features)
 - [Installation](#installation)
+- [Dependency](#dependency)
 - [Usage](#usage)
 - [API](#API)
 - [Example](#example)
@@ -37,7 +38,7 @@ To use the **RelayModule** library in your PlatformIO project, follow these step
 1. Open "platformio.ini", a project configuration file located in the root of PlatformIO project.
 
 2. Add the following line to the `lib_deps` option of `[env:]` section:
-`ronny-antoon/RelayModule@^1.0.0`
+`ronny-antoon/RelayModule@^2.0.0`
 
 3. Build a project, PlatformIO will automatically install dependencies.
 
@@ -49,6 +50,9 @@ To use the **RelayModule** library in your Arduino project, follow these steps:
 2. In the Arduino IDE, click "Sketch" -> "Include Library" -> "Add .ZIP Library" and select the downloaded `.zip` file.
 
 3. Make sure to link your project with the necessary ESP-IDF libraries for NVS support.
+
+## Dependency
+- [MultiPrinterLogger](https://github.com/ronny-antoon/MultiPrinterLogger#readme)
 
 ## Usage
 

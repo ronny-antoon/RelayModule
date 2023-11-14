@@ -5,13 +5,12 @@
  * @file RelayModule.hpp
  * @brief Defines the RelayModule class
  * @details Header file for RelayModule class implementing the RelayModuleInterface
- * @version 1.0.0
- * @date 2023/11/08
  * @author Ronny Antoon
  * @copyright MetaHouse LTD.
  */
 
-#include <stdint.h> // uint8_t
+#include <stdint.h>                        // uint8_t
+#include <MultiPrinterLoggerInterface.hpp> // _logger
 
 #include "RelayModuleInterface.hpp"
 
@@ -27,6 +26,8 @@ private:
     uint8_t _pin; // Pin connected to the relay module
     bool _onHigh; // Flag indicating if the relay module is turned on by high or low signal
 
+    MultiPrinterLoggerInterface *_logger; // Pointer to the logger instance
+
 public:
     /**
      * @brief RelayModule constructor
@@ -34,7 +35,7 @@ public:
      * @param pin The pin connected to the relay module
      * @param turnOnHigh Flag indicating if the relay module is turned on by high or low signal
      */
-    RelayModule(uint8_t pin, bool turnOnHigh = true);
+    RelayModule(uint8_t pin, bool turnOnHigh = true, MultiPrinterLoggerInterface *logger = nullptr);
 
     /**
      * @brief RelayModule destructor
@@ -61,7 +62,7 @@ public:
      *
      * @return true if the relay module is on, false otherwise.
      */
-    bool isOn() override;
+    bool isOn() const override;
 };
 
 #endif // RELAY_MODULE_HPP
