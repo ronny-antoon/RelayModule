@@ -38,7 +38,7 @@ To use the **RelayModule** library in your PlatformIO project, follow these step
 1. Open "platformio.ini", a project configuration file located in the root of PlatformIO project.
 
 2. Add the following line to the `lib_deps` option of `[env:]` section:
-`ronny-antoon/RelayModule@^2.0.0`
+`ronny-antoon/RelayModule@^4.1.0`
 
 3. Build a project, PlatformIO will automatically install dependencies.
 
