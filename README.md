@@ -1,4 +1,4 @@
-# RelayModule Library
+# 🌟RelayModule Library🌟
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=BACPRJTAU4G4E)
 [![Latest](https://img.shields.io/github/v/tag/ronny-antoon/RelayModule?color=red&label=last+release)](https://github.com/ronny-antoon/RelayModule/releases)
