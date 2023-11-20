@@ -9,8 +9,9 @@
  * @copyright MetaHouse LTD.
  */
 
-#include <stdint.h>                        // uint8_t
 #include <MultiPrinterLoggerInterface.hpp> // _logger
+#include <esp32-hal-gpio.h>                // pinMode, digitalWrite, digitalRead
+#include <stdint.h>                        // uint8_t
 
 #include "RelayModuleInterface.hpp"
 

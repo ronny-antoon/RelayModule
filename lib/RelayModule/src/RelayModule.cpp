@@ -1,7 +1,5 @@
 #include "RelayModule.hpp"
 
-#include <esp32-hal-gpio.h> // pinMode, digitalWrite, digitalRead
-
 RelayModule::RelayModule(uint8_t pin, bool turnOnHigh, MultiPrinterLoggerInterface *logger) : _pin(pin), _onHigh(turnOnHigh), _logger(logger)
 {
     if (_logger)
