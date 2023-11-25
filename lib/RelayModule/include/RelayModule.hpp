@@ -44,14 +44,9 @@ public:
     ~RelayModule() override;
 
     /**
-     * @brief Turns on the relay module.
+     * @brief Sets the relay module state.
      */
-    void turnOn() override;
-
-    /**
-     * @brief Turns off the relay module.
-     */
-    void turnOff() override;
+    void setState(bool state) override;
 
     /**
      * @brief Toggles the relay module state.

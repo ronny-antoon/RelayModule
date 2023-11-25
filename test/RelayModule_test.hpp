@@ -1,6 +1,7 @@
 #ifndef RELAY_MODULE_TEST_HPP
 #define RELAY_MODULE_TEST_HPP
 
+#include <Arduino.h>
 #include <gtest/gtest.h>
 
 #include "RelayModule.hpp"
@@ -40,20 +41,20 @@ protected:
 // Test case for turnOn method
 TEST_F(RelayModuleTest, turnOn)
 {
-    _relayModule1->turnOn();                        // Turn on RelayModule 1
+    _relayModule1->setState(true);                  // Turn on RelayModule 1
     EXPECT_EQ(digitalRead(relayPin1), turnOnHigh1); // Verify the state of the relay pin
 
-    _relayModule2->turnOn();                        // Turn on RelayModule 2
+    _relayModule2->setState(true);                  // Turn on RelayModule 2
     EXPECT_EQ(digitalRead(relayPin2), turnOnHigh2); // Verify the state of the relay pin
 }
 
 // Test case for turnOff method
 TEST_F(RelayModuleTest, turnOff)
 {
-    _relayModule1->turnOff();                        // Turn off RelayModule 1
+    _relayModule1->setState(false);                  // Turn off RelayModule 1
     EXPECT_EQ(digitalRead(relayPin1), !turnOnHigh1); // Verify the state of the relay pin
 
-    _relayModule2->turnOff();                        // Turn off RelayModule 2
+    _relayModule2->setState(false);                  // Turn off RelayModule 2
     EXPECT_EQ(digitalRead(relayPin2), !turnOnHigh2); // Verify the state of the relay pin
 }
 
@@ -90,6 +91,26 @@ TEST_F(RelayModuleTest, isOn)
 
     digitalWrite(relayPin2, !turnOnHigh2); // Simulate turning off RelayModule 2
     EXPECT_FALSE(_relayModule2->isOn());   // Verify isOn correctly reports the state
+}
+
+// Test max allocation heap memory
+TEST_F(RelayModuleTest, maxMemoryAllocation)
+{
+    int m_maxHeapAvailable = ESP.getMaxAllocHeap(); // Maximum heap memory available
+
+    _relayModule1->setState(true); // Turn on RelayModule 1
+    _relayModule2->setState(true); // Turn on RelayModule 2
+
+    _relayModule1->toggle(); // Toggle RelayModule 1
+    _relayModule2->toggle(); // Toggle RelayModule 2
+
+    _relayModule1->setState(false); // Turn off RelayModule 1
+    _relayModule2->setState(false); // Turn off RelayModule 2
+
+    _relayModule1->isOn(); // Check if RelayModule 1 is on
+    _relayModule2->isOn(); // Check if RelayModule 2 is on
+
+    EXPECT_EQ(m_maxHeapAvailable, ESP.getMaxAllocHeap()); // Verify that there is no memory leak
 }
 
 #endif // RELAY_MODULE_TEST_HPP

@@ -25,14 +25,9 @@ public:
     virtual ~RelayModuleInterface() = default;
 
     /**
-     * @brief Turns on the relay module.
+     * @brief Sets the relay module state.
      */
-    virtual void turnOn() = 0;
-
-    /**
-     * @brief Turns off the relay module.
-     */
-    virtual void turnOff() = 0;
+    virtual void setState(bool state) = 0;
 
     /**
      * @brief Toggles the relay module state.
