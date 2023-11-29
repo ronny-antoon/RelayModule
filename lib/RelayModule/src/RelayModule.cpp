@@ -1,6 +1,9 @@
 #include "RelayModule.hpp"
 
-RelayModule::RelayModule(uint8_t pin, bool turnOnHigh, MultiPrinterLoggerInterface *logger) : _pin(pin), _onHigh(turnOnHigh), _logger(logger)
+RelayModule::RelayModule(
+    uint8_t const pin, bool const turnOnHigh,
+    MultiPrinterLoggerInterface *const logger)
+    : _pin(pin), _onHigh(turnOnHigh), _logger(logger)
 {
     Log_Debug(_logger, "RelayModule initialized with pin %d, turn on %s", _pin, _onHigh ? "HIGH" : "LOW");
 
@@ -13,7 +16,7 @@ RelayModule::~RelayModule()
     Log_Debug(_logger, "RelayModule destructor called");
 }
 
-void RelayModule::setState(bool state)
+void RelayModule::setState(bool const state)
 {
     Log_Verbose(_logger, "RelayModule state set to: %s", state ? "On" : "Off");
 
@@ -25,7 +28,7 @@ void RelayModule::toggle()
     setState(!isOn());
 }
 
-bool RelayModule::isOn() const
+bool const RelayModule::isOn() const
 {
     return digitalRead(_pin) == _onHigh;
 }

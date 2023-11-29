@@ -24,10 +24,10 @@
 class RelayModule : public RelayModuleInterface
 {
 private:
-    uint8_t _pin; // Pin connected to the relay module
-    bool _onHigh; // Flag indicating if the relay module is turned on by high or low signal
+    uint8_t const _pin; // Pin connected to the relay module
+    bool const _onHigh; // Flag indicating if the relay module is turned on by high or low signal
 
-    MultiPrinterLoggerInterface *_logger; // Pointer to the logger instance
+    MultiPrinterLoggerInterface *const _logger; // Pointer to the logger instance
 
 public:
     /**
@@ -36,7 +36,7 @@ public:
      * @param pin The pin connected to the relay module
      * @param turnOnHigh Flag indicating if the relay module is turned on by high or low signal
      */
-    RelayModule(uint8_t pin, bool turnOnHigh = true, MultiPrinterLoggerInterface *logger = nullptr);
+    RelayModule(uint8_t const pin, bool const turnOnHigh = true, MultiPrinterLoggerInterface *const logger = nullptr);
 
     /**
      * @brief RelayModule destructor
@@ -46,7 +46,7 @@ public:
     /**
      * @brief Sets the relay module state.
      */
-    void setState(bool state) override;
+    void setState(bool const state) override;
 
     /**
      * @brief Toggles the relay module state.
@@ -58,7 +58,7 @@ public:
      *
      * @return true if the relay module is on, false otherwise.
      */
-    bool isOn() const override;
+    bool const isOn() const override;
 };
 
 #endif // RELAY_MODULE_HPP

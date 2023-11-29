@@ -27,7 +27,7 @@ public:
     /**
      * @brief Sets the relay module state.
      */
-    virtual void setState(bool state) = 0;
+    virtual void setState(const bool state) = 0;
 
     /**
      * @brief Toggles the relay module state.
@@ -39,7 +39,7 @@ public:
      *
      * @return true if the relay module is on, false otherwise.
      */
-    virtual bool isOn() const = 0;
+    virtual bool const isOn() const = 0;
 };
 
 #endif // RELAY_MODULE_INTERFACE_HPP
