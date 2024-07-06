@@ -21,14 +21,16 @@ The RelayModule Library is a C++ library providing an abstract interface and imp
 - [Contributions](#contributions)
 - [Platformio Registry](#platformio-registry)
 
+
 ## Introduction
 
 The RelayModule Library simplifies the management of relay modules in ESP32/Arduino projects. It provides an abstract interface for controlling relay states, offering methods for turning on/off, toggling, and checking the current state.
 
 ## Features
 
-- `Relay State Control`: Abstracts relay control with methods for turning on/off, toggling, and checking the current state.
+- `Relay State Control`: Abstracts relay control with methods for turning on/off and checking the current state.
 - `Configurability`: Allows users to specify the pin connected to the relay module and whether the relay is turned on by a high or low signal.
+
 
 ## Installation
 
@@ -56,28 +58,29 @@ To use the **RelayModule** library in your Arduino project, follow these steps:
 
 ## Usage
 
-1. Create an instance of the RelayModule class, specifying the pin connected to the relay module and whether it is turned on by a high or low signal.
-```cpp
-#include <RelayModule.hpp>
+1. Include the `RelayModule` library in your project.
+    ```cpp
+    #include <RelayModule.hpp>
+    ```
 
-// Create a RelayModule instance with pin 6 and turned on by a high signal
-RelayModule relayModule(6, true);
-```
+2. Create a `RelayModule` instance.
+    ```cpp
+    // Create a RelayModule instance with pin 6 and turned on by a high signal
+    RelayModule relayModule(6, true);
+    ```
 
-2. Control the relay state using the provided methods.
-```cpp
-// Turn on the relay module
-relayModule.turnOn();
+3. Control the relay state using the provided methods.
+    ```cpp
+    // Turn on the relay module
+    relayModule.setPower(true);
 
-// Turn off the relay module
-relayModule.turnOff();
+    // Turn off the relay module
+    relayModule.setPower(false);
 
-// Toggle the relay module state
-relayModule.toggle();
+    // Check if the relay module is currently on
+    bool isRelayOn = relayModule.isOn();
+    ```
 
-// Check if the relay module is currently on
-bool isRelayOn = relayModule.isOn();
-```
 
 ## API
 
@@ -86,6 +89,7 @@ The RelayModule Library provides the following classes and interfaces:
 - `RelayModule`: Implementation of the RelayModuleInterface for relay modules.
 
 Detailed documentation and usage examples can be found in the library source code.
+
 
 ## Example
 
@@ -105,15 +109,11 @@ void setup()
 void loop()
 {
     // Turn on the relay module
-    relayModule.turnOn();
+    relayModule.setPower(true);
     delay(1000);
 
     // Turn off the relay module
-    relayModule.turnOff();
-    delay(1000);
-
-    // Toggle the relay module state
-    relayModule.toggle();
+    relayModule.setPower(false);
     delay(1000);
 
     // Check if the relay module is currently on
