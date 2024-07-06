@@ -1,5 +1,4 @@
-#ifndef RELAY_MODULE_TEST_HPP
-#define RELAY_MODULE_TEST_HPP
+#pragma once
 
 #include <Arduino.h>
 #include <gtest/gtest.h>
@@ -16,9 +15,9 @@ bool turnOnHigh2 = false;
 class RelayModuleTest : public ::testing::Test
 {
 protected:
-    uint32_t _startFreeHeap = 0; // Initial free heap size
-    RelayModule *_relayModule1;  // Pointer to the first RelayModule instance
-    RelayModule *_relayModule2;  // Pointer to the second RelayModule instance
+    uint32_t _startFreeHeap = 0;         // Initial free heap size
+    RelayModuleInterface *_relayModule1; // Pointer to the first RelayModule instance
+    RelayModuleInterface *_relayModule2; // Pointer to the second RelayModule instance
 
     // Set up function to run before each test case
     void SetUp() override
@@ -38,39 +37,19 @@ protected:
     }
 };
 
-// Test case for turnOn method
-TEST_F(RelayModuleTest, turnOn)
+// Test case for setPower method
+TEST_F(RelayModuleTest, setPower)
 {
-    _relayModule1->setState(true);                  // Turn on RelayModule 1
+    _relayModule1->setPower(true);                  // Turn on RelayModule 1
     EXPECT_EQ(digitalRead(relayPin1), turnOnHigh1); // Verify the state of the relay pin
 
-    _relayModule2->setState(true);                  // Turn on RelayModule 2
-    EXPECT_EQ(digitalRead(relayPin2), turnOnHigh2); // Verify the state of the relay pin
-}
-
-// Test case for turnOff method
-TEST_F(RelayModuleTest, turnOff)
-{
-    _relayModule1->setState(false);                  // Turn off RelayModule 1
-    EXPECT_EQ(digitalRead(relayPin1), !turnOnHigh1); // Verify the state of the relay pin
-
-    _relayModule2->setState(false);                  // Turn off RelayModule 2
-    EXPECT_EQ(digitalRead(relayPin2), !turnOnHigh2); // Verify the state of the relay pin
-}
-
-// Test case for toggle method
-TEST_F(RelayModuleTest, toggle)
-{
-    _relayModule1->toggle();                        // Toggle RelayModule 1
-    EXPECT_EQ(digitalRead(relayPin1), turnOnHigh1); // Verify the state of the relay pin
-
-    _relayModule2->toggle();                        // Toggle RelayModule 2
+    _relayModule2->setPower(true);                  // Turn on RelayModule 2
     EXPECT_EQ(digitalRead(relayPin2), turnOnHigh2); // Verify the state of the relay pin
 
-    _relayModule1->toggle();                         // Toggle RelayModule 1 again
+    _relayModule1->setPower(false);                  // Turn off RelayModule 1
     EXPECT_EQ(digitalRead(relayPin1), !turnOnHigh1); // Verify the state of the relay pin
 
-    _relayModule2->toggle();                         // Toggle RelayModule 2 again
+    _relayModule2->setPower(false);                  // Turn off RelayModule 2
     EXPECT_EQ(digitalRead(relayPin2), !turnOnHigh2); // Verify the state of the relay pin
 }
 
@@ -98,19 +77,14 @@ TEST_F(RelayModuleTest, maxMemoryAllocation)
 {
     int m_maxHeapAvailable = ESP.getMaxAllocHeap(); // Maximum heap memory available
 
-    _relayModule1->setState(true); // Turn on RelayModule 1
-    _relayModule2->setState(true); // Turn on RelayModule 2
+    _relayModule1->setPower(true); // Turn on RelayModule 1
+    _relayModule2->setPower(true); // Turn on RelayModule 2
 
-    _relayModule1->toggle(); // Toggle RelayModule 1
-    _relayModule2->toggle(); // Toggle RelayModule 2
-
-    _relayModule1->setState(false); // Turn off RelayModule 1
-    _relayModule2->setState(false); // Turn off RelayModule 2
+    _relayModule1->setPower(false); // Turn off RelayModule 1
+    _relayModule2->setPower(false); // Turn off RelayModule 2
 
     _relayModule1->isOn(); // Check if RelayModule 1 is on
     _relayModule2->isOn(); // Check if RelayModule 2 is on
 
     EXPECT_EQ(m_maxHeapAvailable, ESP.getMaxAllocHeap()); // Verify that there is no memory leak
 }
-
-#endif // RELAY_MODULE_TEST_HPP

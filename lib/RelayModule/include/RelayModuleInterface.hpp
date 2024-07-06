@@ -1,45 +1,29 @@
-#ifndef RELAY_MODULE_INTERFACE_HPP
-#define RELAY_MODULE_INTERFACE_HPP
+#pragma once
 
 /**
- * @file RelayModuleInterface.hpp
- * @brief Defines the RelayModuleInterface class
- * @details Header file declaring the abstract interface for relay modules
- * @author Ronny Antoon
- * @copyright MetaHouse LTD.
- */
-
-/**
- * @brief Interface for relay modules.
+ * @brief Interface for a relay module.
  *
- * @details This abstract class serves as an interface for relay modules,
- * providing methods for controlling the relay state (turning on/off, toggling)
- * and checking the current state of the relay.
+ * This interface defines the basic operations for controlling a relay module.
  */
 class RelayModuleInterface
 {
 public:
     /**
-     * @brief Virtual destructor for RelayModuleInterface.
+     * @brief Virtual destructor for the interface.
      */
     virtual ~RelayModuleInterface() = default;
 
     /**
-     * @brief Sets the relay module state.
-     */
-    virtual void setState(const bool state) = 0;
-
-    /**
-     * @brief Toggles the relay module state.
-     */
-    virtual void toggle() = 0;
-
-    /**
-     * @brief Checks if the relay module is currently on.
+     * @brief Set the relay power state.
      *
-     * @return true if the relay module is on, false otherwise.
+     * @param newState True to turn the relay on, false to turn it off.
      */
-    virtual bool const isOn() const = 0;
-};
+    virtual void setPower(bool newState) = 0;
 
-#endif // RELAY_MODULE_INTERFACE_HPP
+    /**
+     * @brief Check if the relay is currently on.
+     *
+     * @return True if the relay is on, false otherwise.
+     */
+    virtual bool isOn() = 0;
+};

@@ -1,64 +1,56 @@
-#ifndef RELAY_MODULE_HPP
-#define RELAY_MODULE_HPP
-
-/**
- * @file RelayModule.hpp
- * @brief Defines the RelayModule class
- * @details Header file for RelayModule class implementing the RelayModuleInterface
- * @author Ronny Antoon
- * @copyright MetaHouse LTD.
- */
-
-#include <MultiPrinterLoggerInterface.hpp> // _logger
-#include <esp32-hal-gpio.h>                // pinMode, digitalWrite, digitalRead
-#include <stdint.h>                        // uint8_t
+#pragma once
 
 #include "RelayModuleInterface.hpp"
+#include <driver/gpio.h>
+
+#ifndef CONFIG_R_B_M_ACTIVE_HIGH
+#define CONFIG_R_B_M_ACTIVE_HIGH 1
+#endif
 
 /**
- * @brief RelayModule class
+ * @brief Implementation of a relay module.
  *
- * @details This class is responsible for the relay module, providing methods
- * to control the relay module by turning it on or off, and checking its state.
+ * This class provides the implementation for controlling a relay module using a GPIO pin.
  */
 class RelayModule : public RelayModuleInterface
 {
-private:
-    uint8_t const _pin; // Pin connected to the relay module
-    bool const _onHigh; // Flag indicating if the relay module is turned on by high or low signal
-
-    MultiPrinterLoggerInterface *const _logger; // Pointer to the logger instance
-
 public:
     /**
-     * @brief RelayModule constructor
+     * @brief Construct a new Relay Module object.
      *
-     * @param pin The pin connected to the relay module
-     * @param turnOnHigh Flag indicating if the relay module is turned on by high or low signal
+     * @param pin The GPIO pin number connected to the relay.
+     * @param isActiveHigh The active level of the relay (1 for active high, 0 for active low).
+     * @param initialRelayState The initial state of the relay (1 for on, 0 for off, -1 for no change).
      */
-    RelayModule(uint8_t const pin, bool const turnOnHigh = true, MultiPrinterLoggerInterface *const logger = nullptr);
+    RelayModule(int8_t pin = -1, int8_t isActiveHigh = CONFIG_R_B_M_ACTIVE_HIGH, int8_t initialRelayState = -1);
 
     /**
-     * @brief RelayModule destructor
+     * @brief Destroy the Relay Module object.
      */
-    ~RelayModule() override;
+    virtual ~RelayModule();
 
     /**
-     * @brief Sets the relay module state.
-     */
-    void setState(bool const state) override;
-
-    /**
-     * @brief Toggles the relay module state.
-     */
-    void toggle() override;
-
-    /**
-     * @brief Checks if the relay module is currently on.
+     * @brief Set the relay power state.
      *
-     * @return true if the relay module is on, false otherwise.
+     * @param newState True to turn the relay on, false to turn it off.
      */
-    bool const isOn() const override;
+    void setPower(bool newState) override;
+
+    /**
+     * @brief Check if the relay is currently on.
+     *
+     * @return True if the relay is on, false otherwise.
+     */
+    bool isOn() override;
+
+private:
+    gpio_num_t m_pin;      ///< The GPIO pin number connected to the relay.
+    int8_t m_isActiveHigh; ///< The active level of the relay (1 for active high, 0 for active low).
+
+    // delete the copy constructor and the assignment operator
+    RelayModule(const RelayModule &) = delete;
+    RelayModule &operator=(const RelayModule &) = delete;
+
+    // Helper method for initialization
+    void initializeRelay(int8_t initialRelayState);
 };
-
-#endif // RELAY_MODULE_HPP
