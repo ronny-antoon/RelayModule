@@ -1,29 +1,41 @@
 #pragma once
 
+#include <Arduino.h>
+
 /**
- * @brief Interface for a relay module.
+ * @file RelayModuleInterface.hpp
+ * @brief Defines the RelayModuleInterface class.
+ * @details Header file declaring the abstract interface for relay modules.
+ * @author Ronny Antoon
+ * @copyright MetaHouse
+ */
+
+/**
+ * @brief Interface for relay modules.
  *
- * This interface defines the basic operations for controlling a relay module.
+ * @details This abstract class serves as an interface for relay modules,
+ * providing methods for controlling the relay state (turning on/off, toggling),
+ * and checking the current state of the relay.
  */
 class RelayModuleInterface
 {
 public:
     /**
-     * @brief Virtual destructor for the interface.
+     * @brief Virtual destructor for RelayModuleInterface.
      */
     virtual ~RelayModuleInterface() = default;
 
     /**
-     * @brief Set the relay power state.
+     * @brief Sets the relay module state.
      *
-     * @param newState True to turn the relay on, false to turn it off.
+     * @param newState The new state of the relay module (true for on, false for off).
      */
-    virtual void setPower(bool newState) = 0;
+    virtual esp_err_t setPower(const bool newState) = 0;
 
     /**
-     * @brief Check if the relay is currently on.
+     * @brief Checks if the relay module is currently on.
      *
-     * @return True if the relay is on, false otherwise.
+     * @return true if the relay module is on, false otherwise.
      */
-    virtual bool isOn() = 0;
+    virtual bool isOn() const = 0;
 };

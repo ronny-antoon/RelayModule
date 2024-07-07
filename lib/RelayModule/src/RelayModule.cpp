@@ -1,63 +1,26 @@
 #include "RelayModule.hpp"
-#include <driver/gpio.h>
-#include <esp_log.h>
 
-static const char *TAG = "RelayModule";
-
-RelayModule::RelayModule(int8_t pin, int8_t isActiveHigh, int8_t initialRelayState) : m_pin(static_cast<gpio_num_t>(pin)), m_isActiveHigh(isActiveHigh)
+RelayModule::RelayModule(uint8_t const pin, bool const isActiveHigh, MultiPrinterLoggerInterface *const logger)
+    : m_pin(pin), m_isActiveHigh(isActiveHigh), m_logger(logger)
 {
-    ESP_LOGI(TAG, "Initializing RelayModule with pin: %d, active level: %d, initial state: %d", pin, isActiveHigh,
-             initialRelayState);
-
-    if (pin < 0)
-    {
-        ESP_LOGE(TAG, "Invalid relay pin number: %d", pin);
-        return;
-    }
-
-    gpio_reset_pin(m_pin);
-
-    gpio_set_direction(m_pin, GPIO_MODE_INPUT_OUTPUT);
-
-    initializeRelay(initialRelayState);
+    Log_Debug(m_logger, "RelayModule initialized with pin %d, turn on %s", m_pin, m_isActiveHigh ? "HIGH" : "LOW");
+    pinMode(m_pin, OUTPUT);
+    setPower(false);
 }
 
 RelayModule::~RelayModule()
 {
-    ESP_LOGI(TAG, "Deinitializing RelayModule with pin: %d", m_pin);
+    Log_Debug(m_logger, "RelayModule destructor called");
 }
 
-void RelayModule::setPower(bool newState)
+esp_err_t RelayModule::setPower(bool const newState)
 {
-    ESP_LOGD(TAG, "Setting relay power state to: %s", newState ? "ON" : "OFF");
-
-    if (gpio_set_level(m_pin, newState ? m_isActiveHigh : !m_isActiveHigh) != ESP_OK)
-    {
-        ESP_LOGE(TAG, "Failed to set relay state to: %s", newState ? "ON" : "OFF");
-    }
+    Log_Verbose(m_logger, "RelayModule state set to: %s", newState ? "On" : "Off");
+    digitalWrite(m_pin, newState ? m_isActiveHigh : !m_isActiveHigh);
+    return ESP_OK;
 }
 
-bool RelayModule::isOn()
+bool RelayModule::isOn() const
 {
-    bool currState = (gpio_get_level(m_pin) == m_isActiveHigh);
-    ESP_LOGI(TAG, "Checking if relay is on: %s", currState ? "YES" : "NO");
-    return currState;
-}
-
-void RelayModule::initializeRelay(int8_t initialRelayState)
-{
-    if (initialRelayState == 0)
-    {
-        gpio_set_level(m_pin, !m_isActiveHigh);
-        ESP_LOGD(TAG, "Relay initialized to OFF state.");
-    }
-    else if (initialRelayState == 1)
-    {
-        gpio_set_level(m_pin, m_isActiveHigh);
-        ESP_LOGD(TAG, "Relay initialized to ON state.");
-    }
-    else
-    {
-        ESP_LOGW(TAG, "Initial state not set: %d", initialRelayState);
-    }
+    return digitalRead(m_pin) == m_isActiveHigh;
 }

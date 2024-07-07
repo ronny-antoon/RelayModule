@@ -15,9 +15,9 @@ bool turnOnHigh2 = false;
 class RelayModuleTest : public ::testing::Test
 {
 protected:
-    uint32_t _startFreeHeap = 0;         // Initial free heap size
-    RelayModuleInterface *_relayModule1; // Pointer to the first RelayModule instance
-    RelayModuleInterface *_relayModule2; // Pointer to the second RelayModule instance
+    uint32_t _startFreeHeap = 0; // Initial free heap size
+    RelayModule *_relayModule1;  // Pointer to the first RelayModule instance
+    RelayModule *_relayModule2;  // Pointer to the second RelayModule instance
 
     // Set up function to run before each test case
     void SetUp() override
