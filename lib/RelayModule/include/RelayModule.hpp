@@ -2,65 +2,60 @@
 
 /**
  * @file RelayModule.hpp
- * @brief Defines the RelayModule class.
- * @details Header file for RelayModule class implementing the RelayModuleInterface.
- * @authored Ronny Antoon
- * @company MetaHouse
+ * @brief Defines the RelayModule class
+ * @details Header file for RelayModule class implementing the RelayModuleInterface
+ * @author Ronny Antoon
+ * @copyright MetaHouse LTD.
  */
 
-#include <Arduino.h>
+#include <MultiPrinterLoggerInterface.hpp> // _logger
+#include <esp32-hal-gpio.h>                // pinMode, digitalWrite, digitalRead
+#include <stdint.h>                        // uint8_t
 
 #include "RelayModuleInterface.hpp"
-#include <MultiPrinterLoggerInterface.hpp>
-
-#ifndef CONFIG_R_B_M_ACTIVE_HIGH
-#define CONFIG_R_B_M_ACTIVE_HIGH true
-#endif
 
 /**
- * @brief RelayModule class.
+ * @brief RelayModule class
  *
- * @details This class is responsible for controlling the relay module, providing methods
- * to turn the relay module on or off, and checking its state.
+ * @details This class is responsible for the relay module, providing methods
+ * to control the relay module by turning it on or off, and checking its state.
  */
 class RelayModule : public RelayModuleInterface
 {
+private:
+    uint8_t const _pin; // Pin connected to the relay module
+    bool const _onHigh; // Flag indicating if the relay module is turned on by high or low signal
+
+    MultiPrinterLoggerInterface *const _logger; // Pointer to the logger instance
+
 public:
     /**
-     * @brief RelayModule constructor.
+     * @brief RelayModule constructor
      *
-     * @param pin The pin connected to the relay module.
-     * @param isActiveHigh Flag indicating if the relay module is turned on by high or low signal.
-     * @param logger Pointer to the logger instance.
+     * @param pin The pin connected to the relay module
+     * @param turnOnHigh Flag indicating if the relay module is turned on by high or low signal
      */
-    RelayModule(uint8_t const pin, bool const isActiveHigh = CONFIG_R_B_M_ACTIVE_HIGH, MultiPrinterLoggerInterface *const logger = nullptr);
+    RelayModule(uint8_t const pin, bool const turnOnHigh = true, MultiPrinterLoggerInterface *const logger = nullptr);
 
     /**
-     * @brief RelayModule destructor.
+     * @brief RelayModule destructor
      */
     ~RelayModule() override;
 
     /**
      * @brief Sets the relay module state.
-     *
-     * @param newState The new state of the relay module (true for on, false for off).
-     * @return esp_err_t Error code indicating success or failure.
      */
-    esp_err_t setPower(bool const newState) override;
+    void setState(bool const state) override;
+
+    /**
+     * @brief Toggles the relay module state.
+     */
+    void toggle() override;
 
     /**
      * @brief Checks if the relay module is currently on.
      *
      * @return true if the relay module is on, false otherwise.
      */
-    bool isOn() const override;
-
-private:
-    uint8_t const m_pin;                         ///< Pin connected to the relay module.
-    bool const m_isActiveHigh;                   ///< Flag indicating if the relay module is turned on by high or low signal.
-    MultiPrinterLoggerInterface *const m_logger; ///< Pointer to the logger instance.
-
-    // Deleted copy constructor and assignment operator
-    RelayModule(RelayModule const &) = delete;
-    RelayModule &operator=(RelayModule const &) = delete;
+    bool const isOn() const override;
 };

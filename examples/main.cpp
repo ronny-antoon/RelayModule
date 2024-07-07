@@ -1,22 +1,20 @@
 #include <Arduino.h>
+
 #include "RelayModule.hpp"
 
-RelayModuleInterface *relayModule;
+RelayModule *relayModule;
 
 void setup()
 {
     Serial.begin(115200);
 
     relayModule = new RelayModule(2, true);
-
-    // Optional: Set the initial state if needed
-    relayModule->setPower(false); // Turn off the relay initially
 }
 
 void loop()
 {
-    relayModule->setPower(true);
+    relayModule->turnOn();
     delay(1000);
-    relayModule->setPower(false);
+    relayModule->turnOff();
     delay(1000);
 }

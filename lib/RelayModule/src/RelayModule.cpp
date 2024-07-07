@@ -1,26 +1,34 @@
 #include "RelayModule.hpp"
 
-RelayModule::RelayModule(uint8_t const pin, bool const isActiveHigh, MultiPrinterLoggerInterface *const logger)
-    : m_pin(pin), m_isActiveHigh(isActiveHigh), m_logger(logger)
+RelayModule::RelayModule(
+    uint8_t const pin, bool const turnOnHigh,
+    MultiPrinterLoggerInterface *const logger)
+    : _pin(pin), _onHigh(turnOnHigh), _logger(logger)
 {
-    Log_Debug(m_logger, "RelayModule initialized with pin %d, turn on %s", m_pin, m_isActiveHigh ? "HIGH" : "LOW");
-    pinMode(m_pin, OUTPUT);
-    setPower(false);
+    Log_Debug(_logger, "RelayModule initialized with pin %d, turn on %s", _pin, _onHigh ? "HIGH" : "LOW");
+
+    pinMode(_pin, OUTPUT);
+    setState(false);
 }
 
 RelayModule::~RelayModule()
 {
-    Log_Debug(m_logger, "RelayModule destructor called");
+    Log_Debug(_logger, "RelayModule destructor called");
 }
 
-esp_err_t RelayModule::setPower(bool const newState)
+void RelayModule::setState(bool const state)
 {
-    Log_Verbose(m_logger, "RelayModule state set to: %s", newState ? "On" : "Off");
-    digitalWrite(m_pin, newState ? m_isActiveHigh : !m_isActiveHigh);
-    return ESP_OK;
+    Log_Verbose(_logger, "RelayModule state set to: %s", state ? "On" : "Off");
+
+    digitalWrite(_pin, state ? _onHigh : !_onHigh);
 }
 
-bool RelayModule::isOn() const
+void RelayModule::toggle()
 {
-    return digitalRead(m_pin) == m_isActiveHigh;
+    setState(!isOn());
+}
+
+bool const RelayModule::isOn() const
+{
+    return digitalRead(_pin) == _onHigh;
 }
